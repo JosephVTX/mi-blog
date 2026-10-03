@@ -292,7 +292,7 @@ const wa = waLink(t.waMsg);
 
         <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-rose">🌎 {t.pay.ppTitle}</p>
         <div class="card">
-          <iframe src={PAY.paypal} title="PayPal" loading="lazy" class="h-[26rem] w-full rounded-xl border-0 bg-white" referrerpolicy="no-referrer"></iframe>
+          <div id="paypal-donate" data-id="FFYRVFKJ26T6U" class="flex justify-center"></div>
           <a href={PAY.paypal} target="_blank" rel="noopener noreferrer" class="btn btn-rose mt-3 w-full">{t.pay.ppBtn}</a>
           <p class="mt-2 text-center text-xs text-soft">{t.pay.ppNote}</p>
         </div>
@@ -354,6 +354,20 @@ const wa = waLink(t.waMsg);
         }, { rootMargin: '0px 0px -8% 0px' });
         els.forEach(function (el) { io.observe(el); });
       } else els.forEach(function (el) { el.classList.add('in'); });
+      var ppEl = document.getElementById('paypal-donate');
+      function loadPP() {
+        var sc = document.createElement('script');
+        sc.src = 'https://www.paypalobjects.com/donate/sdk/donate-sdk.js';
+        sc.charset = 'UTF-8';
+        sc.onload = function () {
+          try { PayPal.Donation.Button({ env: 'production', hosted_button_id: ppEl.dataset.id, image: { alt: 'PayPal' } }).render('#paypal-donate'); } catch (e) {}
+        };
+        document.head.appendChild(sc);
+      }
+      if ('IntersectionObserver' in window) {
+        var pio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { pio.disconnect(); loadPP(); } }, { rootMargin: '300px' });
+        pio.observe(ppEl);
+      } else loadPP();
       var pe = document.getElementById('pe');
       function showPe() { pe.hidden = false; }
       try { if (Intl.DateTimeFormat().resolvedOptions().timeZone === 'America/Lima') showPe(); } catch (e) {}
