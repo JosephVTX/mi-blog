@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #fbf7f2;
+  --color-ink: #1c1917;
+  --color-soft: #57534e;
+  --color-rose: #be123c;
+  --color-rose-dark: #881337;
+  --color-warm: #f3e8dc;
+  --font-serif: ui-serif, Georgia, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-paper font-sans text-ink antialiased; font-size: 1.125rem; line-height: 1.75; }
+  h1, h2, h3 { @apply font-serif; text-wrap: balance; }
+  p { text-wrap: pretty; }
+  img, video { @apply block h-auto max-w-full; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-2xl px-5; }
+  .prose-s p { @apply mb-5; }
+  .kicker { @apply mb-3 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-rose; }
+  .h2 { @apply mb-6 text-[2rem] font-bold leading-[1.15] tracking-tight; }
+  .btn { @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold transition active:scale-95; }
+  .btn-wa { @apply bg-[#16a34a] text-white shadow-lg shadow-green-900/20; }
+  .btn-rose { @apply bg-rose text-white shadow-lg shadow-rose-900/25; }
+  .btn-ghost { @apply border-2 border-ink/15 bg-white text-ink; }
+  .quote { @apply my-10 border-l-4 border-rose py-1 pl-5 font-serif text-[1.65rem] italic leading-snug; }
+  .figure { @apply my-8; }
+  .figure img { @apply w-full rounded-2xl object-cover shadow-xl shadow-stone-900/10; }
+  .figure figcaption { @apply mt-3 px-1 text-sm italic leading-snug text-soft; }
+  .card { @apply rounded-2xl bg-white p-5 shadow-sm ring-1 ring-stone-900/5; }
+  .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .rv.in { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+}
+@media (min-width: 640px) {
+  body { font-size: 1.1875rem; }
+  .h2 { font-size: 2.5rem; }
+}

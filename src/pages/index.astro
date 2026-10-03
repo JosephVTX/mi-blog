@@ -1,0 +1,337 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
+import { photos } from '../data/photos';
+import { SITE, waLink } from '../config';
+
+const faq = [
+  { q: '¿Quién es Joseph Vega?', a: 'Joseph Williams Vega Callupe es un desarrollador web peruano de 26 años, nacido en Lima el 16 de febrero de 2000, que fue diagnosticado con Leucemia Linfoblástica Aguda (LLA) tipo B en el Hospital Cayetano Heredia y busca continuar su tratamiento en España.' },
+  { q: '¿Qué es la Leucemia Linfoblástica Aguda (LLA) tipo B?', a: 'Es un cáncer de la sangre y de la médula ósea en el que se producen en exceso linfocitos B inmaduros. Avanza rápido y requiere tratamiento de inmediato, generalmente con quimioterapia, hospitalización y controles de sangre frecuentes.' },
+  { q: '¿Cómo puedo ayudar a Joseph?', a: 'Puedes donar, cubrir un análisis, un traslado, alimentación o alojamiento, o simplemente compartir su historia. Escríbele por WhatsApp al +51 927 834 271 para coordinar tu apoyo.' },
+  { q: '¿Para qué se usará la ayuda?', a: 'Para continuar el tratamiento médico y cubrir análisis externos, traslados, medicinas, alimentación, alojamiento y los gastos del posible traslado a España.' },
+];
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: SITE.url, inLanguage: 'es-PE' },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Programador con leucemia: mi historia contra la LLA tipo B',
+    description: SITE.description,
+    image: [new URL(SITE.ogImage, SITE.url).href],
+    datePublished: SITE.published,
+    dateModified: SITE.published,
+    inLanguage: 'es-PE',
+    mainEntityOfPage: SITE.url,
+    author: { '@type': 'Person', name: 'Joseph Williams Vega Callupe', url: SITE.url, jobTitle: 'Desarrollador web', telephone: SITE.phone, birthPlace: 'Lima, Perú' },
+    publisher: { '@type': 'Person', name: 'Joseph Williams Vega Callupe' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: 'El aire acondicionado que goteaba en mi cuarto de hospital',
+    description: 'Video grabado por Joseph Vega durante su internamiento: el aire acondicionado malogrado goteaba dentro del área de hospitalización.',
+    uploadDate: SITE.published,
+    contentUrl: new URL('/goteras.webm', SITE.url).href,
+    thumbnailUrl: [new URL(SITE.ogImage, SITE.url).href],
+  },
+];
+
+const gallery = ['p15', 'p22', 'p18', 'p26', 'p19', 'p20', 'p25'];
+const wa = waLink();
+---
+<Layout jsonLd={jsonLd}>
+  <div id="bar" class="fixed inset-x-0 top-0 z-50 h-1 origin-left scale-x-0 bg-rose"></div>
+
+  <!-- HERO -->
+  <header class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+    <Picture
+      src={photos.p23.src}
+      alt={photos.p23.alt}
+      formats={['avif', 'webp']}
+      widths={[480, 800, 1200]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+      quality={60}
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_20%]"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/55 to-black/10"></div>
+    <div class="wrap pb-12 pt-32">
+      <p class="kicker !text-rose-300">Lima, Perú · 26 años · Desarrollador web</p>
+      <h1 class="text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+        Soy programador.<br />Y tengo <span class="text-rose-400">leucemia</span>.
+      </h1>
+      <p class="mt-5 text-xl leading-snug text-stone-200">
+        Escribía código todos los días. Hoy mi mayor proyecto es seguir con vida. Esta es mi historia.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#ayuda" class="btn btn-rose">Quiero ayudar</a>
+        <a href="#historia" class="btn bg-white/15 text-white ring-1 ring-white/30 backdrop-blur">Leer mi historia ↓</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="historia">
+    <!-- QUIEN SOY -->
+    <section class="wrap py-16">
+      <p class="kicker rv">Antes de todo</p>
+      <h2 class="h2 rv">Mi nombre es Joseph.</h2>
+      <div class="prose-s rv">
+        <p>Me llamo <strong>Joseph Williams Vega Callupe</strong>. Nací el <strong>16 de febrero del 2000</strong> en Lima, Perú. Tengo 26 años y vivo de lo que más me gusta: <strong>crear cosas en la web</strong>.</p>
+        <p>Hoy enfrento una enfermedad que cambió mi vida por completo:</p>
+      </div>
+      <p class="quote rv">Leucemia Linfoblástica Aguda (LLA) tipo B.</p>
+      <p class="rv">Los programadores vivimos de resolver errores. Esta vez el error no está en mi pantalla: <strong>está en mi sangre</strong>.</p>
+    </section>
+
+    <!-- SINTOMAS -->
+    <section class="bg-warm py-16">
+      <div class="wrap">
+        <p class="kicker rv">Capítulo 1 · Los síntomas</p>
+        <h2 class="h2 rv">Todo empezó con un cansancio que no era normal.</h2>
+        <div class="prose-s rv">
+          <p>Caminar una cuadra me agitaba tanto que tenía que detenerme a respirar.</p>
+          <p>Aparecieron dolores y punzadas en la cabeza. Vivo en un tercer piso y <strong>subir las escaleras se volvió una batalla</strong>: sentía que la cabeza me palpitaba.</p>
+          <p>Pensé que era cansancio. Un problema pasajero. Fui a una clínica a hacerme un chequeo general.</p>
+        </div>
+        <Photo id="p09" caption="Ya no tenía fuerzas. Y todavía no sabía por qué." />
+        <div class="card my-10 text-center rv">
+          <p class="font-mono text-xs font-semibold uppercase tracking-widest text-soft">Mi hemoglobina</p>
+          <p class="font-serif text-8xl font-extrabold leading-none text-rose">4.2</p>
+          <p class="mt-3 text-base leading-snug text-soft">Un valor normal en un hombre adulto ronda entre 13 y 17. La doctora me dijo que necesitaba una transfusión <strong>con urgencia</strong>.</p>
+        </div>
+        <Photo id="p12" caption="La palidez lo decía todo." />
+      </div>
+    </section>
+
+    <!-- EMERGENCIA -->
+    <section class="wrap py-16">
+      <p class="kicker rv">Capítulo 2 · El diagnóstico</p>
+      <h2 class="h2 rv">Y entonces escuché las palabras que lo cambiaron todo.</h2>
+      <div class="prose-s rv">
+        <p>Fui al <strong>Hospital Cayetano Heredia</strong>. Más análisis, más estudios. Ahí recibí la noticia: <strong>LLA tipo B</strong>.</p>
+        <p>Pasé unos dos días en emergencia. No había espacio. Me quedé <strong>en un pasadizo</strong>, sin cama ni sillón adecuado, con muchísimo frío.</p>
+        <p>Dormir era imposible: pacientes con dolor, otros desorientados o delirando en la madrugada, el ir y venir constante de equipos y personal médico.</p>
+      </div>
+      <Photo id="p01" caption="Con mascarilla y una manta verde, intentando entender lo que me pasaba." />
+      <Photo id="p13" caption="Dos días en el pasadizo de emergencia, acompañado de mi familia." />
+      <Photo id="p11" caption="Transfusión de sangre, sentado en una silla plegable." />
+      <div class="grid grid-cols-2 gap-3">
+        <Photo id="p14" sizes="50vw" class="!my-0" caption="Glóbulos rojos que me devolvían la energía." />
+        <Photo id="p21" sizes="50vw" class="!my-0" caption="Mirando a la cámara. Aún sin entender del todo." />
+      </div>
+    </section>
+
+    <!-- COMMIT LOG -->
+    <section class="bg-ink py-14 text-stone-100">
+      <div class="wrap">
+        <p class="kicker rv !text-rose-300">Mi vida, en formato git</p>
+        <pre class="rv overflow-x-auto rounded-2xl bg-black/50 p-5 font-mono text-[0.8rem] leading-7 ring-1 ring-white/10"><code><span class="text-stone-500">$</span> git log --oneline
+<span class="text-amber-300">a1f</span> fix: hemoglobina 4.2 → transfusión urgente
+<span class="text-amber-300">b2c</span> feat: diagnóstico LLA tipo B
+<span class="text-amber-300">c3d</span> chore: 2 días en un pasadizo de emergencia
+<span class="text-amber-300">d4e</span> feat: 2 meses internado en oncología
+<span class="text-amber-300">e5f</span> bug: infección por KPC
+<span class="text-amber-300">f60</span> <span class="text-green-400">wip: sigo aquí, sigo luchando</span><span class="animate-pulse">▍</span></code></pre>
+      </div>
+    </section>
+
+    <!-- INTERNADO -->
+    <section class="wrap py-16">
+      <p class="kicker rv">Capítulo 3 · Dos meses internado</p>
+      <h2 class="h2 rv">Mi oficina pasó a ser una cama de hospital.</h2>
+      <div class="prose-s rv">
+        <p>Me trasladaron a otra área, donde estuve internado <strong>aproximadamente dos meses</strong> bajo el cuidado de oncología.</p>
+        <p>Los análisis de sangre eran casi interdiarios. Me sacaban sangre tantas veces que <strong>los brazos me dolían</strong>.</p>
+      </div>
+      <Photo id="p24" caption="Suero y tratamiento, día tras día, con la mascarilla siempre puesta." />
+      <Photo id="p17" caption="El celular se volvió mi ventana al mundo." />
+    </section>
+
+    <!-- CARRUSEL -->
+    <section aria-label="Galería: mis días en el hospital" class="pb-4">
+      <ul class="flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {gallery.map((id) => (
+          <li class="w-[78%] max-w-sm shrink-0 snap-center sm:w-80">
+            <Picture
+              src={photos[id].src}
+              alt={photos[id].alt}
+              formats={['avif', 'webp']}
+              widths={[320, 480, 640]}
+              sizes="(min-width:640px) 320px, 78vw"
+              loading="lazy"
+              decoding="async"
+              quality={60}
+              class="aspect-[3/4] w-full rounded-2xl object-cover shadow-lg"
+            />
+          </li>
+        ))}
+      </ul>
+      <p class="wrap text-center text-sm italic text-soft">Desliza → así eran mis días.</p>
+    </section>
+
+    <!-- CONDICIONES -->
+    <section class="wrap py-16">
+      <p class="kicker rv">Capítulo 4 · Lo que viví dentro</p>
+      <h2 class="h2 rv">Cosas pequeñas. Pero vividas durante semanas, pesan.</h2>
+      <p class="rv mb-8">Cada una puede parecer menor si se cuenta por separado. Pero <strong>vivirlas durante semanas y meses, mientras enfrentas una leucemia, es completamente distinto</strong>.</p>
+
+      <ul class="space-y-4">
+        <li class="card rv"><strong>🌧️ El aire acondicionado goteaba.</strong> Se formaban charcos y hacía muchísimo frío. Con fiebre y sudor, mi cama se mojaba y se enfriaba. No siempre había ropa de cama limpia: a veces dormí así.</li>
+        <li class="card rv"><strong>🧤 Mis defensas estaban muy bajas.</strong> Tuve que pedir que usaran guantes antes de ciertos procedimientos. Cualquier contaminación me daba terror.</li>
+        <li class="card rv"><strong>🍽️ Comer era otro miedo.</strong> A veces la porción era mínima y me quedaba con hambre; otras veces prefería no comer por la higiene que veía.</li>
+        <li class="card rv"><strong>🦟 Zancudos en mi área.</strong> Lo reporté. No hubo solución inmediata. Con defensas bajas, cualquier infección era un riesgo.</li>
+        <li class="card rv"><strong>🦠 Contraje KPC.</strong> Todo se volvió todavía más difícil.</li>
+        <li class="card rv"><strong>🚽 Aislado y sin baño.</strong> Usaba un baño portátil. A veces pedía que lo retiraran y se olvidaban. Tuve que resolverlo como pude, incluso con bolsas.</li>
+      </ul>
+
+      <figure class="figure rv">
+        <video controls playsinline preload="metadata" muted class="aspect-[9/16] max-h-[70svh] w-full rounded-2xl bg-black object-contain shadow-xl" aria-label="Video del aire acondicionado goteando en el área de hospitalización">
+          <source src="/goteras.webm" type="video/webm" />
+        </video>
+        <figcaption>▶ Mi video grabado en el hospital: el aire acondicionado malogrado, goteando.</figcaption>
+      </figure>
+
+      <p class="quote rv">Las noches casi sin dormir me dejaban confundido y agotado.</p>
+      <Photo id="p10" caption="Fiebre, frío, vías en el brazo. Y otra noche por delante." />
+    </section>
+
+    <!-- DOLOR -->
+    <section class="bg-warm py-16">
+      <div class="wrap">
+        <p class="kicker rv">Capítulo 5 · El dolor</p>
+        <h2 class="h2 rv">Mi cuerpo atravesaba un proceso durísimo.</h2>
+        <div class="prose-s rv">
+          <p>Los medicamentos me provocaban <strong>dolor en los huesos</strong>. Pasar tanto tiempo acostado y perder masa muscular hacía que cada posición doliera. Tenía que cambiar de postura todo el tiempo.</p>
+          <p>La quimioterapia me quitó el cabello. <strong>Pero tenía que seguir adelante.</strong></p>
+        </div>
+        <Photo id="p06" caption="Rapándome la cabeza. La quimioterapia empezaba a mostrarse." />
+        <div class="grid grid-cols-2 gap-3">
+          <Photo id="p32" sizes="50vw" class="!my-0" caption="Vías en ambos brazos." />
+          <Photo id="p34" sizes="50vw" class="!my-0" caption="El catéter en el pecho." />
+        </div>
+        <Photo id="p27" class="!mt-8" caption="Cansado, pero con la mirada firme." />
+      </div>
+    </section>
+
+    <!-- FAMILIA -->
+    <section class="wrap py-16">
+      <p class="kicker rv">Capítulo 6 · Mi familia</p>
+      <h2 class="h2 rv">Ellos fueron mi fuerza.</h2>
+      <div class="prose-s rv">
+        <p>Tener cerca a mi familia lo era todo. Cuando llevas tanto tiempo internado y débil, <strong>el apoyo de quienes quieres es parte de la fuerza para continuar</strong>.</p>
+        <p>A veces el personal de seguridad ponía restricciones o se molestaba por las visitas. Hubo momentos en que costaba que me llevaran lo necesario para mi higiene o mi alimentación.</p>
+      </div>
+      <Photo id="p07" caption="Su abrazo me sostuvo." />
+    </section>
+
+    <!-- DINERO -->
+    <section class="bg-ink py-16 text-stone-100">
+      <div class="wrap">
+        <p class="kicker rv !text-rose-300">Capítulo 7 · Lo económico</p>
+        <h2 class="h2 rv">Cada análisis, cada taxi, cada medicina, una preocupación más.</h2>
+        <div class="prose-s rv">
+          <p>No todos los análisis podían hacerse en el hospital. Cuando faltaban, tenía que hacerlos <strong>por fuera, pagando</strong>.</p>
+          <p>Vivía lejos. Los análisis del hospital eran muy temprano, y para no perderlos tenía que ir en <strong>taxi</strong>.</p>
+          <p>Traslados, análisis externos, medicamentos, comida, cada día de hospitalización. <strong>Todo suma.</strong></p>
+        </div>
+        <Photo id="p33" caption="Aun así, sonrío. Todavía quiero ganar esta pelea." class="[&_figcaption]:!text-stone-400" />
+      </div>
+    </section>
+
+    <!-- AYUDA -->
+    <section id="ayuda" class="wrap scroll-mt-4 py-16">
+      <p class="kicker rv">Mi pedido</p>
+      <h2 class="h2 rv">Hoy cuento mi historia porque necesito ayuda para continuar.</h2>
+      <div class="prose-s rv">
+        <p>Quiero seguir recibiendo la atención médica que necesito y cubrir lo que aparece en el camino: <strong>traslados, análisis, alimentación, alojamiento</strong>.</p>
+        <p>Estoy buscando continuar mi tratamiento <strong>en España</strong>, donde espero encontrar una alternativa para seguir luchando.</p>
+        <p>No pido que alguien resuelva toda mi situación. Pido <strong>una oportunidad para seguir luchando</strong>.</p>
+      </div>
+
+      <h3 class="rv mb-4 mt-10 text-2xl font-bold">Puedes ayudarme con</h3>
+      <ul class="grid gap-3">
+        <li class="card rv">💛 <strong>Una donación</strong></li>
+        <li class="card rv">🧪 <strong>Cubrir un análisis</strong></li>
+        <li class="card rv">🚕 <strong>Un traslado</strong></li>
+        <li class="card rv">🍲 <strong>Alimentación o alojamiento</strong></li>
+        <li class="card rv">📣 <strong>Compartir mi historia</strong>. A veces eso lo cambia todo.</li>
+      </ul>
+
+      <div class="rv mt-10 rounded-3xl bg-rose p-6 text-center text-white shadow-xl">
+        <p class="font-serif text-2xl font-bold leading-snug">Escríbeme por WhatsApp</p>
+        <p class="mb-5 mt-1 font-mono text-lg">{SITE.phone}</p>
+        <a href={wa} class="btn btn-wa w-full" rel="noopener">💬 Quiero ayudar a Joseph</a>
+        <button id="share" type="button" class="btn mt-3 w-full bg-white/15 text-white ring-1 ring-white/40">↗ Compartir esta historia</button>
+      </div>
+    </section>
+
+    <!-- CIERRE -->
+    <section class="bg-warm py-16 text-center">
+      <div class="wrap">
+        <p class="rv font-serif text-3xl italic leading-snug">Mi enfermedad cambió mi vida, pero no quiero que sea el final de mi historia.</p>
+        <ul class="rv my-8 space-y-1 font-serif text-2xl font-bold text-rose">
+          <li>Quiero seguir luchando.</li>
+          <li>Quiero continuar mi tratamiento.</li>
+          <li>Quiero volver a construir mi vida.</li>
+        </ul>
+        <p class="rv">Gracias de corazón a cada persona que leyó, compartió, ayudó o simplemente me acompañó con sus palabras.</p>
+        <p class="rv mt-4 font-serif text-2xl font-bold">Sigo aquí. 💛</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="wrap py-16" aria-labelledby="faq">
+      <h2 id="faq" class="h2">Preguntas frecuentes</h2>
+      <div class="space-y-3">
+        {faq.map((f) => (
+          <details class="card">
+            <summary class="cursor-pointer font-bold">{f.q}</summary>
+            <p class="mt-3 text-base leading-relaxed text-soft">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-ink px-5 pb-28 pt-10 text-center text-sm text-stone-400">
+    <p>© 2026 Joseph Williams Vega Callupe · Lima, Perú</p>
+    <p class="mt-1">Historia real contada en primera persona.</p>
+  </footer>
+
+  <!-- CTA fijo -->
+  <a id="fab" href={wa} rel="noopener" class="btn btn-wa fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 translate-y-28 transition-transform duration-300 sm:left-auto sm:right-6 sm:w-auto" aria-label="Ayudar a Joseph por WhatsApp">💬 Ayudar por WhatsApp</a>
+
+  <script is:inline>
+    (function () {
+      var bar = document.getElementById('bar'), fab = document.getElementById('fab'), tick = false;
+      function on() {
+        var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+        fab.style.transform = h.scrollTop > innerHeight * 0.8 ? 'none' : '';
+        tick = false;
+      }
+      addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(on); } }, { passive: true });
+      var els = document.querySelectorAll('.rv');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      } else els.forEach(function (el) { el.classList.add('in'); });
+      document.getElementById('share').addEventListener('click', function () {
+        var d = { title: document.title, text: 'Lee la historia de Joseph, programador con leucemia, y ayúdale a compartirla.', url: location.href };
+        if (navigator.share) navigator.share(d).catch(function () {});
+        else window.open('https://wa.me/?text=' + encodeURIComponent(d.text + ' ' + d.url), '_blank', 'noopener');
+      });
+    })();
+  </script>
+</Layout>

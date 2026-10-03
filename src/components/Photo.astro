@@ -1,0 +1,22 @@
+---
+import { Picture } from 'astro:assets';
+import { photos } from '../data/photos';
+interface Props { id: string; caption?: string; eager?: boolean; sizes?: string; class?: string; ratio?: string }
+const { id, caption, eager = false, sizes = '(min-width:672px) 640px, 100vw', class: cls = '', ratio } = Astro.props;
+const p = photos[id];
+---
+<figure class:list={['figure rv', cls]}>
+  <Picture
+    src={p.src}
+    alt={p.alt}
+    formats={['avif', 'webp']}
+    widths={[400, 640, 900]}
+    sizes={sizes}
+    loading={eager ? 'eager' : 'lazy'}
+    decoding={eager ? 'sync' : 'async'}
+    fetchpriority={eager ? 'high' : 'auto'}
+    quality={65}
+    style={ratio ? `aspect-ratio:${ratio}` : undefined}
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
