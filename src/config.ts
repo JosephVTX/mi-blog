@@ -11,5 +11,5 @@ export const SITE = {
   ogImage: '/og.jpg',
   published: '2026-10-02',
 };
-export const waLink = (msg = 'Hola Joseph, leí tu historia y quiero ayudarte.') =>
+export const waLink = (msg: string) =>
   `https://wa.me/${SITE.phoneRaw}?text=${encodeURIComponent(msg)}`;

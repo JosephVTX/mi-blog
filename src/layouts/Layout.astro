@@ -1,13 +1,16 @@
 ---
 import '../styles/global.css';
 import { SITE } from '../config';
-interface Props { title?: string; description?: string; jsonLd?: object[] }
-const { title = SITE.title, description = SITE.description, jsonLd = [] } = Astro.props;
-const canonical = new URL(Astro.url.pathname, SITE.url).href;
+import { locales, type Dict } from '../i18n';
+interface Props { t: Dict; jsonLd?: object[] }
+const { t, jsonLd = [] } = Astro.props;
+const title = t.meta.title;
+const description = t.meta.description;
+const canonical = new URL(t.path, SITE.url).href;
 const og = new URL(SITE.ogImage, SITE.url).href;
 ---
 <!doctype html>
-<html lang="es-PE">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -18,17 +21,20 @@ const og = new URL(SITE.ogImage, SITE.url).href;
     <meta name="theme-color" content="#fbf7f2" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {locales.map((l) => <link rel="alternate" hreflang={l.htmlLang} href={new URL(l.path, SITE.url).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/', SITE.url).href} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:locale" content={t.ogLocale} />
+    {locales.filter((l) => l !== t).map((l) => <meta property="og:locale:alternate" content={l.ogLocale} />)}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={og} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Joseph Vega, programador de 26 años con leucemia, durante una transfusión de sangre" />
+    <meta property="og:image:alt" content={t.meta.ogAlt} />
     <meta property="article:published_time" content={SITE.published} />
     <meta property="article:author" content={SITE.name} />
     <meta name="twitter:card" content="summary_large_image" />

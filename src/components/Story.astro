@@ -1,0 +1,297 @@
+---
+import { Picture } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Photo from './Photo.astro';
+import { photos } from '../data/photos';
+import { SITE, waLink } from '../config';
+import { locales, type Dict } from '../i18n';
+
+interface Props { t: Dict }
+const { t } = Astro.props;
+const pageUrl = new URL(t.path, SITE.url).href;
+const img = new URL(SITE.ogImage, SITE.url).href;
+
+const jsonLd = [
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE.name, url: pageUrl, inLanguage: t.htmlLang },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: t.meta.headline,
+    description: t.meta.description,
+    image: [img],
+    datePublished: SITE.published,
+    dateModified: SITE.published,
+    inLanguage: t.htmlLang,
+    mainEntityOfPage: pageUrl,
+    author: { '@type': 'Person', name: 'Joseph Williams Vega Callupe', url: SITE.url, telephone: SITE.phone, birthPlace: 'Lima, Perú' },
+    publisher: { '@type': 'Person', name: 'Joseph Williams Vega Callupe' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: t.htmlLang,
+    mainEntity: t.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: t.meta.videoName,
+    description: t.meta.videoDesc,
+    uploadDate: SITE.published,
+    contentUrl: new URL('/goteras.webm', SITE.url).href,
+    thumbnailUrl: [img],
+  },
+];
+
+const wa = waLink(t.waMsg);
+---
+<Layout t={t} jsonLd={jsonLd}>
+  <div id="bar" class="fixed inset-x-0 top-0 z-50 h-1 origin-left scale-x-0 bg-rose"></div>
+
+  <nav aria-label={t.ui.langLabel} class="absolute right-4 top-4 z-30 flex gap-1 rounded-full bg-black/40 p-1 font-mono text-xs font-bold text-white backdrop-blur" style="top:max(1rem,env(safe-area-inset-top))">
+    {locales.map((l) => (
+      <a href={l.path} hreflang={l.htmlLang} lang={l.htmlLang} title={l.langName} aria-current={l === t ? 'page' : undefined} class:list={['rounded-full px-3 py-1.5', l === t ? 'bg-white text-ink' : 'text-white/80']}>{l.label}</a>
+    ))}
+  </nav>
+
+  <header class="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+    <Picture
+      src={photos.p23.src}
+      alt={t.alt.p23}
+      formats={['avif', 'webp']}
+      widths={[480, 800, 1200]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+      quality={60}
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_20%]"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black via-black/55 to-black/10"></div>
+    <div class="wrap pb-12 pt-32">
+      <p class="kicker !text-rose-300">{t.hero.kicker}</p>
+      <h1 class="text-[2.6rem] font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+        {t.hero.h1a}<br />{t.hero.h1b}<span class="text-rose-400">{t.hero.h1em}</span>{t.hero.h1c}
+      </h1>
+      <p class="mt-5 text-xl leading-snug text-stone-200">{t.hero.lead}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#ayuda" class="btn btn-rose">{t.ui.help}</a>
+        <a href="#historia" class="btn bg-white/15 text-white ring-1 ring-white/30 backdrop-blur">{t.ui.read}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="historia">
+    <section class="wrap py-16">
+      <p class="kicker rv">{t.who.kicker}</p>
+      <h2 class="h2 rv">{t.who.h2}</h2>
+      <div class="prose-s rv">
+        {t.who.p.map((x) => <p set:html={x} />)}
+      </div>
+      <p class="quote rv">{t.who.quote}</p>
+      <p class="rv" set:html={t.who.after} />
+    </section>
+
+    <section class="bg-warm py-16">
+      <div class="wrap">
+        <p class="kicker rv">{t.sym.kicker}</p>
+        <h2 class="h2 rv">{t.sym.h2}</h2>
+        <div class="prose-s rv">
+          {t.sym.p.map((x) => <p set:html={x} />)}
+        </div>
+        <Photo id="p09" t={t} />
+        <div class="card my-10 text-center rv">
+          <p class="font-mono text-xs font-semibold uppercase tracking-widest text-soft">{t.sym.hbLabel}</p>
+          <p class="font-serif text-8xl font-extrabold leading-none text-rose">4.2</p>
+          <p class="mt-3 text-base leading-snug text-soft" set:html={t.sym.hbNote} />
+        </div>
+        <Photo id="p12" t={t} />
+      </div>
+    </section>
+
+    <section class="wrap py-16">
+      <p class="kicker rv">{t.dx.kicker}</p>
+      <h2 class="h2 rv">{t.dx.h2}</h2>
+      <div class="prose-s rv">
+        {t.dx.p.map((x) => <p set:html={x} />)}
+      </div>
+      <Photo id="p13" t={t} />
+      <Photo id="p11" t={t} />
+      <div class="grid grid-cols-2 gap-3">
+        <Photo id="p14" t={t} sizes="50vw" class="!my-0" />
+        <Photo id="p21" t={t} sizes="50vw" class="!my-0" />
+      </div>
+    </section>
+
+    <section class="bg-ink py-14 text-stone-100">
+      <div class="wrap">
+        <p class="kicker rv !text-rose-300">{t.git.kicker}</p>
+        <pre class="rv overflow-x-auto rounded-2xl bg-black/50 p-5 font-mono text-[0.8rem] leading-7 ring-1 ring-white/10"><code><span class="text-stone-500">$</span> git log --oneline
+{t.git.lines.map(([h, m], i) => (<Fragment><span class="text-amber-300">{h}</span> {i === t.git.lines.length - 1 ? <span class="text-green-400">{m}</span> : m}{i === t.git.lines.length - 1 ? <span class="animate-pulse">▍</span> : '\n'}</Fragment>))}</code></pre>
+      </div>
+    </section>
+
+    <section class="wrap py-16">
+      <p class="kicker rv">{t.inp.kicker}</p>
+      <h2 class="h2 rv">{t.inp.h2}</h2>
+      <div class="prose-s rv">
+        {t.inp.p.map((x) => <p set:html={x} />)}
+      </div>
+    </section>
+
+    <!-- LÍNEA DE TIEMPO: cabello largo → gorro → rapado -->
+    <section class="pb-12" aria-labelledby="tl">
+      <div class="wrap">
+        <p class="kicker rv">{t.inp.tlKicker}</p>
+        <h2 id="tl" class="h2 rv">{t.inp.tlTitle}</h2>
+      </div>
+      <ol class="relative mx-5 ml-8 border-l-2 border-rose/30 pl-6 sm:mx-auto sm:max-w-[40rem]">
+        {t.tl.map((s) => (
+          <li class="rv relative pb-12 last:pb-0">
+            <span class="absolute -left-[2.1rem] top-1 size-4 rounded-full bg-rose ring-4 ring-paper" aria-hidden="true"></span>
+            <p class="font-mono text-xs font-semibold uppercase tracking-widest text-rose">{s.label}</p>
+            <h3 class="mt-1 font-serif text-2xl font-bold leading-tight">{s.title}</h3>
+            <p class="mt-2 text-lg leading-relaxed" set:html={s.text} />
+            {s.photos.length === 1 ? (
+              <Photo id={s.photos[0]} t={t} sizes="(min-width:672px) 560px, 90vw" />
+            ) : (
+              <ul class="-mr-5 mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-3 pr-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {s.photos.map((id) => (
+                  <li class="w-[72%] max-w-xs shrink-0 snap-center">
+                    <Picture
+                      src={photos[id].src}
+                      alt={t.alt[id]}
+                      formats={['avif', 'webp']}
+                      widths={[320, 480, 640]}
+                      sizes="(min-width:640px) 320px, 72vw"
+                      loading="lazy"
+                      decoding="async"
+                      quality={60}
+                      class="aspect-[3/4] w-full rounded-2xl object-cover shadow-lg"
+                    />
+                    <p class="mt-2 text-sm italic leading-snug text-soft">{t.cap[id]}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="wrap py-16">
+      <p class="kicker rv">{t.cond.kicker}</p>
+      <h2 class="h2 rv">{t.cond.h2}</h2>
+      <p class="rv mb-8" set:html={t.cond.intro} />
+      <ul class="space-y-4">
+        {t.cond.items.map((x) => <li class="card rv" set:html={x} />)}
+      </ul>
+
+      <figure class="figure rv">
+        <video controls playsinline preload="metadata" muted class="aspect-[9/16] max-h-[70svh] w-full rounded-2xl bg-black object-contain shadow-xl" aria-label={t.ui.videoLabel}>
+          <source src="/goteras.webm" type="video/webm" />
+        </video>
+        <figcaption>{t.ui.videoCap}</figcaption>
+      </figure>
+
+      <p class="quote rv">{t.cond.quote}</p>
+    </section>
+
+    <section class="bg-warm py-16">
+      <div class="wrap">
+        <p class="kicker rv">{t.fam.kicker}</p>
+        <h2 class="h2 rv">{t.fam.h2}</h2>
+        <div class="prose-s rv">
+          {t.fam.p.map((x) => <p set:html={x} />)}
+        </div>
+      </div>
+    </section>
+
+    <section class="bg-ink py-16 text-stone-100">
+      <div class="wrap">
+        <p class="kicker rv !text-rose-300">{t.money.kicker}</p>
+        <h2 class="h2 rv">{t.money.h2}</h2>
+        <div class="prose-s rv">
+          {t.money.p.map((x) => <p set:html={x} />)}
+        </div>
+        <Photo id="p33" t={t} class="[&_figcaption]:!text-stone-400" />
+      </div>
+    </section>
+
+    <section id="ayuda" class="wrap scroll-mt-4 py-16">
+      <p class="kicker rv">{t.ask.kicker}</p>
+      <h2 class="h2 rv">{t.ask.h2}</h2>
+      <div class="prose-s rv">
+        {t.ask.p.map((x) => <p set:html={x} />)}
+      </div>
+
+      <h3 class="rv mb-4 mt-10 text-2xl font-bold">{t.ask.how}</h3>
+      <ul class="grid gap-3">
+        {t.ask.items.map((x) => <li class="card rv" set:html={x} />)}
+      </ul>
+
+      <div class="rv mt-10 rounded-3xl bg-rose p-6 text-center text-white shadow-xl">
+        <p class="font-serif text-2xl font-bold leading-snug">{t.ui.waWrite}</p>
+        <p class="mb-5 mt-1 font-mono text-lg">{SITE.phone}</p>
+        <a href={wa} class="btn btn-wa w-full" rel="noopener">{t.ui.waBtn}</a>
+        <button id="share" type="button" data-text={t.ui.shareText} class="btn mt-3 w-full bg-white/15 text-white ring-1 ring-white/40">{t.ui.share}</button>
+      </div>
+    </section>
+
+    <section class="bg-warm py-16 text-center">
+      <div class="wrap">
+        <p class="rv font-serif text-3xl italic leading-snug">{t.end.quote}</p>
+        <ul class="rv my-8 space-y-1 font-serif text-2xl font-bold text-rose">
+          {t.end.wants.map((x) => <li>{x}</li>)}
+        </ul>
+        <p class="rv">{t.end.thanks}</p>
+        <p class="rv mt-4 font-serif text-2xl font-bold">{t.end.here}</p>
+      </div>
+    </section>
+
+    <section class="wrap py-16" aria-labelledby="faq">
+      <h2 id="faq" class="h2">{t.ui.faq}</h2>
+      <div class="space-y-3">
+        {t.faq.map((f) => (
+          <details class="card">
+            <summary class="cursor-pointer font-bold">{f.q}</summary>
+            <p class="mt-3 text-base leading-relaxed text-soft">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-ink px-5 pb-28 pt-10 text-center text-sm text-stone-400">
+    <p>{t.ui.footer1}</p>
+    <p class="mt-1">{t.ui.footer2}</p>
+  </footer>
+
+  <a id="fab" href={wa} rel="noopener" class="btn btn-wa fixed inset-x-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-40 translate-y-28 transition-transform duration-300 sm:left-auto sm:right-6 sm:w-auto" aria-label={t.ui.fabAria}>{t.ui.fab}</a>
+
+  <script is:inline>
+    (function () {
+      var bar = document.getElementById('bar'), fab = document.getElementById('fab'), tick = false;
+      function on() {
+        var h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+        bar.style.transform = 'scaleX(' + (max > 0 ? h.scrollTop / max : 0) + ')';
+        fab.style.transform = h.scrollTop > innerHeight * 0.8 ? 'none' : '';
+        tick = false;
+      }
+      addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(on); } }, { passive: true });
+      var els = document.querySelectorAll('.rv');
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach(function (el) { io.observe(el); });
+      } else els.forEach(function (el) { el.classList.add('in'); });
+      var sh = document.getElementById('share');
+      sh.addEventListener('click', function () {
+        var d = { title: document.title, text: sh.dataset.text, url: location.href };
+        if (navigator.share) navigator.share(d).catch(function () {});
+        else window.open('https://wa.me/?text=' + encodeURIComponent(d.text + ' ' + d.url), '_blank', 'noopener');
+      });
+    })();
+  </script>
+</Layout>

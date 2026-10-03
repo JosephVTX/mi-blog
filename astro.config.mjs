@@ -8,6 +8,7 @@ export default defineConfig({
   compressHTML: true,
   build: { inlineStylesheets: 'always' },
   prefetch: false,
-  integrations: [sitemap()],
+  i18n: { defaultLocale: 'es', locales: ['es', 'en'], routing: { prefixDefaultLocale: false } },
+  integrations: [sitemap({ i18n: { defaultLocale: 'es', locales: { es: 'es-PE', en: 'en' } } })],
   vite: { plugins: [tailwindcss()] },
 });

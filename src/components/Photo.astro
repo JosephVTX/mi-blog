@@ -1,14 +1,16 @@
 ---
 import { Picture } from 'astro:assets';
 import { photos } from '../data/photos';
-interface Props { id: string; caption?: string; eager?: boolean; sizes?: string; class?: string; ratio?: string }
-const { id, caption, eager = false, sizes = '(min-width:672px) 640px, 100vw', class: cls = '', ratio } = Astro.props;
+import type { Dict } from '../i18n/es';
+interface Props { id: string; t: Dict; caption?: string; eager?: boolean; sizes?: string; class?: string; ratio?: string }
+const { id, t, caption: cap, eager = false, sizes = '(min-width:672px) 640px, 100vw', class: cls = '', ratio } = Astro.props;
 const p = photos[id];
+const caption = cap ?? t.cap[id];
 ---
 <figure class:list={['figure rv', cls]}>
   <Picture
     src={p.src}
-    alt={p.alt}
+    alt={t.alt[id] ?? p.alt}
     formats={['avif', 'webp']}
     widths={[400, 640, 900]}
     sizes={sizes}
