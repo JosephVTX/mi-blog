@@ -10,6 +10,8 @@ export const es = {
     title: 'Programador con leucemia: la historia de Joseph Vega | LLA tipo B',
     description:
       'Soy Joseph Vega, desarrollador web de 26 años en Lima, Perú. Tengo Leucemia Linfoblástica Aguda (LLA) tipo B. Esta es mi historia y cómo puedes ayudarme a continuar mi tratamiento en España.',
+    keywords: 'leucemia, leucemia linfoblástica aguda, LLA tipo B, programador con leucemia, desarrollador web con cáncer, historia de leucemia, ayuda para paciente con leucemia, donación leucemia Perú, Hospital Cayetano Heredia, tratamiento leucemia España, Joseph Vega',
+    tags: ['Leucemia','LLA tipo B','Programador','Perú','Cáncer','Ayuda'],
     headline: 'Programador con leucemia: mi historia contra la LLA tipo B',
     ogAlt: 'Joseph Vega, programador de 26 años con leucemia, durante una transfusión de sangre',
     videoName: 'El aire acondicionado que goteaba en mi cuarto de hospital',

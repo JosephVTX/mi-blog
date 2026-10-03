@@ -12,6 +12,8 @@ export const en: Dict = {
     title: 'A programmer with leukemia: Joseph Vega’s story | B-cell ALL',
     description:
       'I am Joseph Vega, a 26-year-old web developer from Lima, Peru. I have B-cell Acute Lymphoblastic Leukemia (ALL). This is my story and how you can help me continue my treatment in Spain.',
+    keywords: 'leukemia, acute lymphoblastic leukemia, B-cell ALL, programmer with leukemia, web developer with cancer, leukemia story, help leukemia patient, donate leukemia Peru, Cayetano Heredia Hospital, leukemia treatment Spain, Joseph Vega',
+    tags: ['Leukemia','B-cell ALL','Programmer','Peru','Cancer','Help'],
     headline: 'A programmer with leukemia: my story fighting B-cell ALL',
     ogAlt: 'Joseph Vega, a 26-year-old programmer with leukemia, during a blood transfusion',
     videoName: 'The leaking air conditioner in my hospital room',
