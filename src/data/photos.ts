@@ -31,6 +31,11 @@ import p31 from '../assets/story/p31.jpg';
 import p32 from '../assets/story/p32.jpg';
 import p33 from '../assets/story/p33.jpg';
 import p34 from '../assets/story/p34.jpg';
+import p35 from '../assets/story/p35.jpg';
+import p36 from '../assets/story/p36.jpg';
+import p37 from '../assets/story/p37.jpg';
+import p38 from '../assets/story/p38.jpg';
+import p39 from '../assets/story/p39.jpg';
 
 export type Photo = { src: ImageMetadata; alt: string };
 export const photos: Record<string, Photo> = {
@@ -66,4 +71,9 @@ export const photos: Record<string, Photo> = {
   p32: { src: p32, alt: 'Joseph muestra sus dos brazos con vías y brazalete de hospital' },
   p33: { src: p33, alt: 'Joseph haciendo el signo de la paz desde su cama de hospital' },
   p34: { src: p34, alt: 'Catéter colocado en el pecho de Joseph' },
+  p35: { src: p35, alt: 'Joseph y su mamá' },
+  p36: { src: p36, alt: 'Joseph y su mamá' },
+  p37: { src: p37, alt: 'Joseph y su mamá' },
+  p38: { src: p38, alt: 'Joseph y su mamá' },
+  p39: { src: p39, alt: 'Joseph y su mamá' },
 };

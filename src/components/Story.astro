@@ -3,7 +3,7 @@ import { Picture } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import Photo from './Photo.astro';
 import { photos } from '../data/photos';
-import { SITE, waLink } from '../config';
+import { SITE, PAY, waLink } from '../config';
 import { locales, type Dict } from '../i18n';
 
 interface Props { t: Dict }
@@ -233,6 +233,12 @@ const wa = waLink(t.waMsg);
         <h2 class="h2 rv">{t.fam.h2}</h2>
         <div class="prose-s rv">
           {t.fam.p.map((x) => <p set:html={x} />)}
+          <p>{t.fam.mom}</p>
+          <p>{t.fam.gf}</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <Photo id="p16" t={t} sizes="50vw" class="!my-0" />
+          <Photo id="p35" t={t} sizes="50vw" class="!my-0" />
         </div>
       </div>
     </section>
@@ -259,6 +265,38 @@ const wa = waLink(t.waMsg);
       <ul class="grid gap-3">
         {t.ask.items.map((x) => <li class="card rv" set:html={x} />)}
       </ul>
+
+      <div class="rv mt-10" id="donar">
+        <p class="kicker">{t.pay.kicker}</p>
+        <h3 class="mb-2 text-2xl font-bold">{t.pay.h2}</h3>
+        <p class="mb-5 text-base leading-snug text-soft">{t.pay.purpose}</p>
+
+        <div id="pe" hidden class="mb-5 space-y-3">
+          <p class="font-mono text-xs font-semibold uppercase tracking-widest text-rose">🇵🇪 {t.pay.peTitle}</p>
+          <div class="card">
+            <img src="/yape.svg" alt="Yape" width="96" height="38" class="mb-3 h-9 w-auto" loading="lazy" />
+            <p class="font-mono text-2xl font-bold">{PAY.yape}</p>
+            <p class="text-sm text-soft">{t.pay.yapeName}</p>
+            <button type="button" data-copy={PAY.yape.replace(/\s/g, '')} class="copy btn mt-3 w-full bg-ink text-white">{t.pay.copy}</button>
+          </div>
+          <div class="card">
+            <img src="/bcp.svg" alt="BCP" width="96" height="38" class="mb-3 h-9 w-auto" loading="lazy" />
+            <p class="font-mono text-xs uppercase tracking-widest text-soft">{t.pay.bcp} · {t.pay.account}</p>
+            <p class="break-all font-mono text-xl font-bold">{PAY.bcpAccount}</p>
+            <button type="button" data-copy={PAY.bcpAccount} class="copy btn mt-3 w-full bg-ink text-white">{t.pay.copy}</button>
+            <p class="mt-5 font-mono text-xs uppercase tracking-widest text-soft">{t.pay.cci}</p>
+            <p class="break-all font-mono text-xl font-bold">{PAY.bcpCci}</p>
+            <button type="button" data-copy={PAY.bcpCci} class="copy btn mt-3 w-full bg-ink text-white">{t.pay.copy}</button>
+          </div>
+        </div>
+
+        <p class="mb-3 font-mono text-xs font-semibold uppercase tracking-widest text-rose">🌎 {t.pay.ppTitle}</p>
+        <div class="card">
+          <iframe src={PAY.paypal} title="PayPal" loading="lazy" class="h-[26rem] w-full rounded-xl border-0 bg-white" referrerpolicy="no-referrer"></iframe>
+          <a href={PAY.paypal} target="_blank" rel="noopener noreferrer" class="btn btn-rose mt-3 w-full">{t.pay.ppBtn}</a>
+          <p class="mt-2 text-center text-xs text-soft">{t.pay.ppNote}</p>
+        </div>
+      </div>
 
       <div class="rv mt-10 rounded-3xl bg-rose p-6 text-center text-white shadow-xl">
         <p class="font-serif text-2xl font-bold leading-snug">{t.ui.waWrite}</p>
@@ -316,6 +354,21 @@ const wa = waLink(t.waMsg);
         }, { rootMargin: '0px 0px -8% 0px' });
         els.forEach(function (el) { io.observe(el); });
       } else els.forEach(function (el) { el.classList.add('in'); });
+      var pe = document.getElementById('pe');
+      function showPe() { pe.hidden = false; }
+      try { if (Intl.DateTimeFormat().resolvedOptions().timeZone === 'America/Lima') showPe(); } catch (e) {}
+      fetch('/api/geo').then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+        if (j && j.country) pe.hidden = j.country !== 'PE';
+      }).catch(function () {});
+      document.querySelectorAll('.copy').forEach(function (b) {
+        var txt = b.textContent;
+        b.addEventListener('click', function () {
+          var v = b.dataset.copy;
+          (navigator.clipboard ? navigator.clipboard.writeText(v) : Promise.reject()).catch(function () {
+            var a = document.createElement('textarea'); a.value = v; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) {} a.remove();
+          }).then(function () { b.textContent = '✓'; setTimeout(function () { b.textContent = txt; }, 1500); });
+        });
+      });
       var sh = document.getElementById('share');
       sh.addEventListener('click', function () {
         var d = { title: document.title, text: sh.dataset.text, url: location.href };

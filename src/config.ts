@@ -13,3 +13,10 @@ export const SITE = {
 };
 export const waLink = (msg: string) =>
   `https://wa.me/${SITE.phoneRaw}?text=${encodeURIComponent(msg)}`;
+export const PAY = {
+  yape: '927 834 271',
+  yapeName: 'Joseph Vega',
+  bcpAccount: '19106704334053',
+  bcpCci: '00219110670433405356',
+  paypal: 'https://www.paypal.com/donate/?hosted_button_id=FFYRVFKJ26T6U',
+};
