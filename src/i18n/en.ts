@@ -212,6 +212,7 @@ export const en: Dict = {
     { q: 'Who is Joseph Vega?', a: 'Joseph Williams Vega Callupe is a 26-year-old Peruvian web developer, born in Lima on February 16, 2000, who was diagnosed with B-cell Acute Lymphoblastic Leukemia (ALL) at Cayetano Heredia Hospital and is seeking to continue his treatment in Spain.' },
     { q: 'What is B-cell Acute Lymphoblastic Leukemia (ALL)?', a: 'It is a cancer of the blood and bone marrow in which too many immature B lymphocytes are produced. It progresses quickly and needs immediate treatment, usually chemotherapy, hospitalization and frequent blood monitoring.' },
     { q: 'How can I help Joseph?', a: 'You can donate, cover a medical test, a ride, food or lodging, or simply share his story. Message him on WhatsApp at +51 927 834 271 to coordinate your support.' },
+    { q: 'How can I donate to Joseph?', a: 'From Peru you can donate via Yape or a BCP bank transfer (soles account or interbank); the details are in the “How you can support me” section at the bottom of this page. From any country, including Peru, you can donate securely with PayPal. Funds go toward his treatment against B-cell ALL leukemia, medication, tests and medical expenses.' },
     { q: 'What will the help be used for?', a: 'To continue medical treatment and cover outside tests, transport, medication, food, lodging and the costs of a possible move to Spain.' },
   ],
   alt: {

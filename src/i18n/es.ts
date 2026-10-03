@@ -210,6 +210,7 @@ export const es = {
     { q: '¿Quién es Joseph Vega?', a: 'Joseph Williams Vega Callupe es un desarrollador web peruano de 26 años, nacido en Lima el 16 de febrero de 2000, que fue diagnosticado con Leucemia Linfoblástica Aguda (LLA) tipo B en el Hospital Cayetano Heredia y busca continuar su tratamiento en España.' },
     { q: '¿Qué es la Leucemia Linfoblástica Aguda (LLA) tipo B?', a: 'Es un cáncer de la sangre y de la médula ósea en el que se producen en exceso linfocitos B inmaduros. Avanza rápido y requiere tratamiento de inmediato, generalmente con quimioterapia, hospitalización y controles de sangre frecuentes.' },
     { q: '¿Cómo puedo ayudar a Joseph?', a: 'Puedes donar, cubrir un análisis, un traslado, alimentación o alojamiento, o simplemente compartir su historia. Escríbele por WhatsApp al +51 927 834 271 para coordinar tu apoyo.' },
+    { q: '¿Cómo puedo donar a Joseph?', a: 'Desde Perú puedes donar por Yape o con una transferencia al BCP (cuenta en soles o interbancaria); los datos aparecen en la sección «Así puedes apoyarme» al final de esta página. Desde cualquier país, incluido Perú, puedes donar de forma segura con PayPal. La ayuda es para su tratamiento contra la Leucemia LLA tipo B, medicamentos, análisis y gastos médicos.' },
     { q: '¿Para qué se usará la ayuda?', a: 'Para continuar el tratamiento médico y cubrir análisis externos, traslados, medicinas, alimentación, alojamiento y los gastos del posible traslado a España.' },
   ],
   alt: {
